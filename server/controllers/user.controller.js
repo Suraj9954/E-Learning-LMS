@@ -53,14 +53,14 @@ export const login = async (req,res) => {
         if(!user){
             return res.status(400).json({
                 success:false,
-                message:"Incorrect email or password"
+                message:"Incorrect email"
             })
         }
         const isPasswordMatch = await bcrypt.compare(password, user.password);
         if(!isPasswordMatch){
             return res.status(400).json({
                 success:false,
-                message:"Incorrect email or password"
+                message:"Incorrect password"
             });
         }
         generateToken(res, user, `Welcome back ${user.name}`);
@@ -148,7 +148,7 @@ export const updateProfile = async (req,res) => {
             message:"Failed to update profile"
         })
     }
-}
+};
 
 // Generate a password reset token and send to user's email
 export const resetPasswordRequest = async (req, res) => {
@@ -195,7 +195,7 @@ export const resetPasswordRequest = async (req, res) => {
     }
 };
   
-  // Reset the password using the token
+// Reset the password using the token
 export const resetPassword = async (req, res) => {
     const { token, newPassword } = req.body;
   
