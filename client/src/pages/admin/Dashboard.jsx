@@ -16,24 +16,29 @@ const Dashboard = () => {
 
   if (isLoading) return <h1>Loading...</h1>;
   if (isError)
-    return <h1 className="text-red-500">Failed to get purchased course</h1>;
+    return <h1 className="text-red-500">Failed to get purchased courses</h1>;
 
-  //
-  const { purchasedCourse } = data || [];
+  // Ensure purchasedCourse is always an array
+  const purchasedCourse = data?.purchasedCourse || [];
 
+  // Ensure course data doesn't break the application
   const courseData = purchasedCourse.map((course) => ({
-    name: course.courseId.courseTitle,
-    price: course.courseId.coursePrice,
+    name: course?.courseId?.courseTitle || "Unknown Course", // Default value
+    price: course?.courseId?.coursePrice || 0, // Default to 0 if missing
   }));
 
+  // Calculate total revenue safely
   const totalRevenue = purchasedCourse.reduce(
-    (acc, element) => acc + (element.amount || 0),
+    (acc, element) => acc + (element?.amount || 0),
     0
   );
 
+  // Total courses sold
   const totalSales = purchasedCourse.length;
+
   return (
-    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
+    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      {/* Total Sales Card */}
       <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
         <CardHeader>
           <CardTitle>Total Sales</CardTitle>
@@ -43,6 +48,7 @@ const Dashboard = () => {
         </CardContent>
       </Card>
 
+      {/* Total Revenue Card */}
       <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
         <CardHeader>
           <CardTitle>Total Revenue</CardTitle>
@@ -52,7 +58,7 @@ const Dashboard = () => {
         </CardContent>
       </Card>
 
-      {/* Course Prices Card */}
+      {/* Course Prices Line Chart */}
       <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-4 px-8">
         <CardHeader>
           <CardTitle className="text-xl font-semibold text-gray-700 dark:text-gray-300">
@@ -66,8 +72,8 @@ const Dashboard = () => {
               <XAxis
                 dataKey="name"
                 stroke="#6b7280"
-                angle={0} // Rotated labels for better visibility
-                textAnchor="start"
+                angle={-15} // Rotated labels for better visibility
+                textAnchor="end"
                 interval={0} // Display all labels
               />
               <YAxis stroke="#6b7280" />
@@ -75,9 +81,9 @@ const Dashboard = () => {
               <Line
                 type="monotone"
                 dataKey="price"
-                stroke="#4a90e2" // Changed color to a different shade of blue
+                stroke="#4a90e2"
                 strokeWidth={3}
-                dot={{ stroke: "#4a90e2", strokeWidth: 2 }} // Same color for the dot
+                dot={{ stroke: "#4a90e2", strokeWidth: 2 }}
               />
             </LineChart>
           </ResponsiveContainer>
