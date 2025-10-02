@@ -19,7 +19,7 @@ const Dashboard = () => {
     return <h1 className="text-red-500">Failed to get purchased courses</h1>;
 
   // Ensure purchasedCourse is always an array
-  const purchasedCourse = data?.purchasedCourse || [];
+  const purchasedCourse = data?.purchasedCourses || [];
 
   // Ensure course data doesn't break the application
   const courseData = purchasedCourse.map((course) => ({
