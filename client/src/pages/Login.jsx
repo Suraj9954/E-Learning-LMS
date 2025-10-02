@@ -59,9 +59,15 @@ const Login = () => {
     }
   };
 
+  const isValidGmail = (email) => /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email);
+
   const handleRegistration = async (type) => {
     const inputData = type === "signup" ? signupInput : loginInput;
     const action = type === "signup" ? registerUser : loginUser;
+    if (!isValidGmail(inputData.email)) {
+      toast.error("Please enter a valid Gmail address.");
+      return;
+    }
     await action(inputData);
   };
 
@@ -118,7 +124,8 @@ const Login = () => {
             <CardContent className="space-y-2">
               <div className="space-y-1">
                 <Label htmlFor="name">Name</Label>
-                <Input
+                <Input 
+                  id = "name"
                   type="text"
                   name="name"
                   value={signupInput.name}

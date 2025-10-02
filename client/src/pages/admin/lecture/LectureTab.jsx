@@ -25,7 +25,7 @@ const LectureTab = () => {
   const [isFree, setIsFree] = useState(false);
   const [mediaProgress, setMediaProgress] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [btnDisable, setBtnDisable] = useState(true);
+  const [btnDisable, setBtnDisable] = useState(false);
   const params = useParams();
   const { courseId, lectureId } = params;
 
@@ -46,6 +46,7 @@ const LectureTab = () => {
 
   const fileChangeHandler = async (e) => {
     const file = e.target.files[0];
+    setBtnDisable(true);
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
@@ -161,12 +162,17 @@ const LectureTab = () => {
         )}
 
         <div className="mt-4">
-          <Button disabled={isLoading} onClick={editLectureHandler}>
+          <Button disabled={isLoading || btnDisable} onClick={editLectureHandler}>
               {
                 isLoading ? <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
                 Please wait
-                </> : "Update Lecture"
+                </> :
+                btnDisable ? <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
+                Please wait video is uploading
+                </> :
+                "Update Lecture"
               }
             
           </Button>

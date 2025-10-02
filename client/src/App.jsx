@@ -1,5 +1,4 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./App.css";
 import Login from "./pages/Login";
 import ResetPasswordRequest from "./pages/ResetPasswordRequest"; // New page for reset password request
 import ResetPassword from "./pages/ResetPassword"; // New page for actual reset
