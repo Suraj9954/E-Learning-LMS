@@ -11,6 +11,7 @@ import { CheckCircle, CheckCircle2, CirclePlay } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
+import CommentSection from "@/components/CommentSection";
 
 const CourseProgress = () => {
   const params = useParams();
@@ -122,6 +123,12 @@ const CourseProgress = () => {
               }`}
             </h3>
           </div>
+          
+          {/* Comment Section */}
+          <CommentSection
+            courseId={courseId}
+            lectureId={currentLecture?._id || initialLecture._id}
+          />
         </div>
         {/* Lecture Sidebar  */}
         <div className="flex flex-col w-full md:w-2/5 border-t md:border-t-0 md:border-l border-gray-200 md:pl-4 pt-4 md:pt-0">
